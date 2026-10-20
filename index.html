@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+</head>
+<body>
+<div class="CAPTCHA">
+    <div id="scene">
+        <div id="piece">
+
+        </div>
+        <div id="hole">
+
+        </div>
+    </div>
+    <div class="slider">
+        <div class="slider-box">
+            &#x2794;
+        </div>
+    </div>
+</div>
+<script>
+    const scene = document.getElementById('scene');
+    const piece = document.getElementById('piece');
+    const hole = document.getElementById('hole');
+    const handle = document.getElementById('handle');
+    const sliderBox=document.querySelector('.slider-box');
+    const slider=document.querySelector('.slider');
+    const HOLE_Y = 100;
+    let HOLE_X = null;
+    let HOLE_WIDTH = 60;
+    let SCENE_WIDTH = 600;
+    let SCENE_HEIGHT = 400;
+    const randBackground = () => {
+        const seed = Math.floor(Math.random() * 5) + 1
+        scene.style.backgroundImage = `url('assets/${seed}.jpg')`
+        piece.style.backgroundImage = `url('assets/${seed}.jpg')`
+        document.body.style.setProperty('--l',0)
+        randHolePosition()
+    }
+    const randHolePosition = () => {
+        HOLE_X = Math.max(100, Math.round(Math.random() * (SCENE_WIDTH - HOLE_WIDTH)));
+        hole.style.top = `${HOLE_Y}px`
+        hole.style.left = `${HOLE_X}px`
+        piece.style.backgroundPosition = `-${HOLE_X}px -${HOLE_Y}px`
+    }
+    const piecePosition = (e, rect) => {
+        x = Math.min(Math.max(0, e.clientX - rect.left - HOLE_WIDTH / 2), SCENE_WIDTH - HOLE_WIDTH);
+        document.body.style.setProperty('--l',x)
+    }
+    //===============onload================
+    randBackground()
+    //=======================互動變數==========
+    let pointerStart = false
+    let mouseDown = false;
+    let x = 0;
+    let rect = slider.getBoundingClientRect();
+    //==========mouse=============
+    slider.addEventListener('mousedown', (e) => {
+        mouseDown = true
+        piecePosition(e, rect)
+    })
+    window.addEventListener('mouseup', (e) => {
+        mouseDown = false
+        if (x >= HOLE_X - 5 && x <= HOLE_X + 5) {
+            console.log("hehe")
+            randBackground()
+        }
+    })
+    window.addEventListener('mousemove', (e) => {
+        if (!mouseDown) return;
+        piecePosition(e, rect)
+    })
+    //=============pointer===============
+    slider.addEventListener('touchstart', () => {
+        pointerStart = true
+    })
+    slider.addEventListener('touchstart', (e) => {
+        piecePosition(e.touches[0], rect)
+    })
+    window.addEventListener('touchend', (e) => {
+        pointerStart = false
+        if (x >= HOLE_X - 5 && x <= HOLE_X + 5) {
+            console.log("hehe")
+            randBackground()
+        }
+    })
+    window.addEventListener('touchmove', (e) => {
+        if (!pointerStart) return;
+        piecePosition(e.touches[0], rect)
+    })
+    //============螢幕變化檢測===============
+    window.addEventListener('resize', () => {
+        rect = sliderBox.getBoundingClientRect()
+    })
+</script>
+</body>
+</html>
