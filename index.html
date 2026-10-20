@@ -34,6 +34,9 @@
     let HOLE_WIDTH = 60;
     let SCENE_WIDTH = 600;
     let SCENE_HEIGHT = 400;
+    if (window.innerWidth<=425){
+        SCENE_WIDTH=300
+    }
     const randBackground = () => {
         const seed = Math.floor(Math.random() * 5) + 1
         scene.style.backgroundImage = `url('assets/${seed}.jpg')`
@@ -95,6 +98,11 @@
     //============螢幕變化檢測===============
     window.addEventListener('resize', () => {
         rect = sliderBox.getBoundingClientRect()
+        let newWidth = window.innerWidth <= 425 ? 300 : 600;
+        if (SCENE_WIDTH !== newWidth) {
+            SCENE_WIDTH = newWidth;
+            randBackground();
+        }
     })
 </script>
 </body>
