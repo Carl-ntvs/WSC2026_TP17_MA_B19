@@ -38,7 +38,7 @@
         SCENE_WIDTH=300
     }
     const randBackground = () => {
-        const seed = Math.floor(Math.random() * 8) + 1
+        const seed = Math.floor(Math.random() * 17) + 1
         scene.style.backgroundImage = `url('assets/${seed}-resized.jpg')`
         piece.style.backgroundImage = `url('assets/${seed}-resized.jpg')`
         document.body.style.setProperty('--l',0)
