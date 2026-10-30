@@ -39,8 +39,8 @@
     }
     const randBackground = () => {
         const seed = Math.floor(Math.random() * 8) + 1
-        scene.style.backgroundImage = `url('assets/${seed}.jpg')`
-        piece.style.backgroundImage = `url('assets/${seed}.jpg')`
+        scene.style.backgroundImage = `url('assets/${seed}-resized.jpg')`
+        piece.style.backgroundImage = `url('assets/${seed}-resized.jpg')`
         document.body.style.setProperty('--l',0)
         randHolePosition()
     }
